@@ -1,0 +1,49 @@
+Introduction to Machine Learning
+
+Machine Learning is a subset of Artificial Intelligence that enables computers to learn from data and improve their performance without being explicitly programmed.
+
+Key Concepts:
+
+1. Supervised Learning
+Supervised learning uses labeled data to train models. Examples include:
+- Classification: Predicting categories (e.g., spam detection)
+- Regression: Predicting continuous values (e.g., house prices)
+
+2. Unsupervised Learning
+Unsupervised learning finds patterns in unlabeled data:
+- Clustering: Grouping similar items together
+- Dimensionality Reduction: Reducing the number of features
+
+3. Neural Networks
+Neural networks are computing systems inspired by biological neural networks:
+- Layers of interconnected nodes (neurons)
+- Each connection has a weight that adjusts during training
+- Deep learning uses networks with many layers
+
+4. Common Algorithms
+- Linear Regression
+- Decision Trees
+- Random Forests
+- Support Vector Machines (SVM)
+- K-Nearest Neighbors (KNN)
+- Convolutional Neural Networks (CNN)
+- Recurrent Neural Networks (RNN)
+
+5. Model Evaluation
+Key metrics for evaluating models:
+- Accuracy: Percentage of correct predictions
+- Precision: True positives / (True positives + False positives)
+- Recall: True positives / (True positives + False negatives)
+- F1 Score: Harmonic mean of precision and recall
+
+6. Applications
+Machine learning is used in:
+- Image recognition
+- Natural language processing
+- Recommendation systems
+- Fraud detection
+- Medical diagnosis
+- Autonomous vehicles
+
+Conclusion:
+Machine learning continues to revolutionize technology and industry, with new applications emerging daily.

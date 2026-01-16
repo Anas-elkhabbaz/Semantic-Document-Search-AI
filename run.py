@@ -73,7 +73,7 @@ def main():
         creationflags=subprocess.CREATE_NEW_CONSOLE if sys.platform == "win32" else 0
     )
     
-    time.sleep(3)
+    time.sleep(8)  # Wait longer for embedding model to load
     
     # Start frontend
     print("🖥️  Starting Frontend on http://localhost:8501")

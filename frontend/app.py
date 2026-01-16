@@ -65,12 +65,23 @@ st.markdown("""
 
 
 def check_api_health():
-    """Check if backend is running"""
-    try:
-        resp = requests.get(f"{API_URL}/health", timeout=5)
-        return resp.status_code == 200, resp.json()
-    except:
-        return False, {}
+    """Check if backend is running with retry logic"""
+    import time
+    
+    # Try multiple times (backend might be starting up)
+    for attempt in range(3):
+        try:
+            resp = requests.get(f"{API_URL}/health", timeout=5)
+            if resp.status_code == 200:
+                return True, resp.json()
+        except:
+            pass
+        
+        # Wait before retry (except on last attempt)
+        if attempt < 2:
+            time.sleep(2)
+    
+    return False, {}
 
 
 def upload_document(file):

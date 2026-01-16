@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic Document Search - AI Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            padding: 60px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #764ba2;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            color: #a78bfa;
+            margin: 20px 0;
+        }
+        
+        p, li {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: #e0e0e0;
+        }
+        
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        li {
+            padding: 15px 0;
+            padding-left: 40px;
+            position: relative;
+        }
+        
+        li::before {
+            content: "▹";
+            color: #667eea;
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+        }
+        
+        .title-slide {
+            text-align: center;
+        }
+        
+        .title-slide h1 {
+            font-size: 4rem;
+            margin-bottom: 30px;
+        }
+        
+        .subtitle {
+            font-size: 2rem;
+            color: #a78bfa;
+            margin-bottom: 60px;
+        }
+        
+        .team-info {
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+        
+        .team-info p {
+            font-size: 1.3rem;
+            margin: 10px 0;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 30px;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.08);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .card h3 {
+            margin-top: 0;
+        }
+        
+        .tech-stack {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .tech-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 40px;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .architecture {
+            background: rgba(0,0,0,0.3);
+            padding: 40px;
+            border-radius: 15px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .nav {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav button {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .nav button:hover {
+            transform: scale(1.1);
+        }
+        
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1rem;
+            color: #888;
+        }
+        
+        .highlight {
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+        
+        .demo-box {
+            background: rgba(102, 126, 234, 0.2);
+            border: 2px solid #667eea;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .demo-box a {
+            color: #a78bfa;
+            font-size: 1.5rem;
+        }
+        
+        .thank-you {
+            text-align: center;
+        }
+        
+        .thank-you h1 {
+            font-size: 5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Slide 1: Title -->
+    <div class="slide title-slide active" id="slide1">
+        <h1>🔍 Semantic Document Search</h1>
+        <p class="subtitle">AI-Powered Document Search Application</p>
+        <div class="team-info">
+            <p><strong>👩‍💻 Team Members:</strong></p>
+            <p>Benmouma Salma</p>
+            <p>Gassi Oumaima</p>
+            <p style="margin-top: 30px;"><strong>👨‍🏫 Supervisor:</strong> Prof. Hamza GAMOUH</p>
+        </div>
+    </div>
+
+    <!-- Slide 2: Problem -->
+    <div class="slide" id="slide2">
+        <h2>📌 Problem Statement</h2>
+        <ul>
+            <li>Traditional keyword search <span class="highlight">fails to understand meaning</span></li>
+            <li>Searching "AI" won't find documents about "Machine Learning"</li>
+            <li>Users need to guess exact keywords to find content</li>
+            <li>No intelligent connection between <span class="highlight">related concepts</span></li>
+        </ul>
+        <div class="card" style="margin-top: 40px;">
+            <h3>💡 Our Solution</h3>
+            <p>Semantic search that understands <span class="highlight">meaning and context</span>, not just keywords</p>
+        </div>
+    </div>
+
+    <!-- Slide 3: Features -->
+    <div class="slide" id="slide3">
+        <h2>✨ Key Features</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>📄 Document Upload</h3>
+                <p>Support for PDF and TXT files with automatic text extraction</p>
+            </div>
+            <div class="card">
+                <h3>🔍 Semantic Search</h3>
+                <p>Find content by meaning, not just keywords</p>
+            </div>
+            <div class="card">
+                <h3>📊 Similarity Scores</h3>
+                <p>See relevance percentage for each result</p>
+            </div>
+            <div class="card">
+                <h3>💻 100% Local</h3>
+                <p>No API keys needed, works offline</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Tech Stack -->
+    <div class="slide" id="slide4">
+        <h2>🛠️ Technology Stack</h2>
+        <div class="tech-stack">
+            <div class="tech-item">FastAPI</div>
+            <div class="tech-item">Streamlit</div>
+            <div class="tech-item">ChromaDB</div>
+            <div class="tech-item">Sentence-Transformers</div>
+            <div class="tech-item">Python</div>
+        </div>
+        <div class="architecture">
+            <pre>
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│                 │     │                 │     │                 │
+│   Streamlit     │────▶│    FastAPI      │────▶│   ChromaDB      │
+│   (Frontend)    │     │    (Backend)    │     │  (Vector DB)    │
+│                 │     │                 │     │                 │
+└─────────────────┘     └────────┬────────┘     └─────────────────┘
+                                 │
+                        ┌────────▼────────┐
+                        │  Sentence       │
+                        │  Transformers   │
+                        │  (Embeddings)   │
+                        └─────────────────┘
+            </pre>
+        </div>
+    </div>
+
+    <!-- Slide 5: How It Works -->
+    <div class="slide" id="slide5">
+        <h2>⚙️ How It Works</h2>
+        <ul>
+            <li><span class="emoji">📤</span> <strong>Upload:</strong> User uploads PDF or TXT document</li>
+            <li><span class="emoji">✂️</span> <strong>Chunking:</strong> Document is split into smaller pieces</li>
+            <li><span class="emoji">🧠</span> <strong>Embedding:</strong> Each chunk is converted to a vector using AI</li>
+            <li><span class="emoji">💾</span> <strong>Storage:</strong> Vectors stored in ChromaDB (Vector Database)</li>
+            <li><span class="emoji">🔍</span> <strong>Search:</strong> Query is embedded and compared semantically</li>
+            <li><span class="emoji">📊</span> <strong>Results:</strong> Most similar chunks returned with scores</li>
+        </ul>
+    </div>
+
+    <!-- Slide 6: Vector Database -->
+    <div class="slide" id="slide6">
+        <h2>🗄️ Vector Database (ChromaDB)</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>What is a Vector DB?</h3>
+                <p>A database optimized for storing and searching <span class="highlight">high-dimensional vectors</span> (embeddings)</p>
+            </div>
+            <div class="card">
+                <h3>Why ChromaDB?</h3>
+                <ul>
+                    <li>Open source & free</li>
+                    <li>Persistent storage</li>
+                    <li>Fast similarity search</li>
+                    <li>Easy integration</li>
+                </ul>
+            </div>
+        </div>
+        <div class="card" style="margin-top: 30px;">
+            <h3>💡 Key Concept: Embeddings</h3>
+            <p>Text is converted to numerical vectors (e.g., 384 dimensions) where similar meanings have similar vectors</p>
+        </div>
+    </div>
+
+    <!-- Slide 7: AI Model -->
+    <div class="slide" id="slide7">
+        <h2>🤖 AI Model: Sentence-Transformers</h2>
+        <div class="card">
+            <h3>Model: all-MiniLM-L6-v2</h3>
+            <ul>
+                <li>Pre-trained on 1 billion+ sentence pairs</li>
+                <li>Produces 384-dimensional embeddings</li>
+                <li>Runs locally - no API needed</li>
+                <li>Size: ~80MB</li>
+            </ul>
+        </div>
+        <div class="grid" style="margin-top: 30px;">
+            <div class="card">
+                <h3>✅ Advantages</h3>
+                <ul>
+                    <li>No quota limits</li>
+                    <li>Works offline</li>
+                    <li>Free forever</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>📈 Performance</h3>
+                <ul>
+                    <li>~0.2s per document</li>
+                    <li>Instant search</li>
+                    <li>High accuracy</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Demo -->
+    <div class="slide" id="slide8">
+        <h2>🎬 Live Demo</h2>
+        <div class="demo-box">
+            <h3>Application URL</h3>
+            <a href="http://localhost:8501" target="_blank">http://localhost:8501</a>
+            <p style="margin-top: 20px;">API Documentation: <a href="http://localhost:8000/docs" target="_blank">http://localhost:8000/docs</a></p>
+        </div>
+        <div class="grid" style="margin-top: 40px;">
+            <div class="card">
+                <h3>Demo Steps</h3>
+                <ul>
+                    <li>Upload a document</li>
+                    <li>Search for "Machine Learning"</li>
+                    <li>View similarity scores</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>GitHub Repository</h3>
+                <p style="word-break: break-all;">
+                    <a href="https://github.com/Anas-elkhabbaz/Semantic-Document-Search-AI" style="color: #a78bfa;">
+                        github.com/Anas-elkhabbaz/Semantic-Document-Search-AI
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Conclusion -->
+    <div class="slide" id="slide9">
+        <h2>📝 Conclusion</h2>
+        <ul>
+            <li>Built a <span class="highlight">fully functional</span> semantic search application</li>
+            <li>Integrated <span class="highlight">AI embeddings</span> for intelligent search</li>
+            <li>Used <span class="highlight">Vector Database</span> for efficient similarity search</li>
+            <li>100% local solution - <span class="highlight">no API costs or limits</span></li>
+        </ul>
+        <div class="card" style="margin-top: 40px;">
+            <h3>🚀 Future Improvements</h3>
+            <ul>
+                <li>Support more file formats (DOCX, PPT)</li>
+                <li>Add user authentication</li>
+                <li>Implement document summarization</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 10: Thank You -->
+    <div class="slide thank-you" id="slide10">
+        <h1>🙏 Thank You!</h1>
+        <p class="subtitle">Questions?</p>
+        <div class="team-info" style="display: inline-block;">
+            <p><strong>Team:</strong> Benmouma Salma & Gassi Oumaima</p>
+            <p><strong>Supervisor:</strong> Prof. Hamza GAMOUH</p>
+            <p style="margin-top: 20px;">
+                <a href="https://github.com/Anas-elkhabbaz/Semantic-Document-Search-AI" style="color: #a78bfa;">
+                    📂 GitHub Repository
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav">
+        <button onclick="prevSlide()">← Previous</button>
+        <button onclick="nextSlide()">Next →</button>
+    </div>
+    
+    <div class="slide-counter">
+        <span id="current">1</span> / <span id="total">10</span>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 10;
+
+        function showSlide(n) {
+            document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+            document.getElementById(`slide${n}`).classList.add('active');
+            document.getElementById('current').textContent = n;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+</body>
+</html>
